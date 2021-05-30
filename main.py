@@ -45,7 +45,7 @@ result = requests.head("https://pixels.pythondiscord.com/set_pixel",headers=HEAD
 remaining = result.headers['Requests-Remaining']
 
 while True:
-    r = requests.get("http://localhost:5000/get_task",headers=church_headers)
+    r = requests.get("http://churchofpepe.ddns.net:5000/get_task",headers=church_headers)
     print(r.text)
     if r.text == "\"no tasks\"":
         print("No tasks available! - sleeping...")
@@ -60,4 +60,4 @@ while True:
 
         sendpixel(task["x"], task["y"], task["color"])
         church_headers["task-id"] = str(task["id"])
-        result = requests.post("http://localhost:5000/task_done",headers=church_headers)
+        result = requests.post("http://churchofpepe.ddns.net:5000/task_done",headers=church_headers)
