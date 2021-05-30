@@ -14,7 +14,7 @@ except:
         pickle.dump(keys, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-headers = {"api-key": f"{keys[1]}"}
+headers = {"Authentication": f"{keys[1]}"}
 
 
 while True:
