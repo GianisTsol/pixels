@@ -26,14 +26,14 @@ while True:
         headers["project-coords-x"] = input("X: ")
         headers["project-coords-y"] = input("Y: ")
         try:
-            r = requests.post("http://localhost:5000/add_project", headers=headers)
+            r = requests.post("http://churchofpepe.ddns.net:5000/add_project", headers=headers)
         except:
             print("conn error")
         print(r.text)
 
     if cmd == "projects":
         try:
-            r = requests.get("http://localhost:5000/get_projects", headers=headers)
+            r = requests.get("http://churchofpepe.ddns.net:5000/get_projects", headers=headers)
         except:
             print("conn error")
         print(r.json())
