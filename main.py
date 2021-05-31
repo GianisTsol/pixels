@@ -58,7 +58,7 @@ while True:
         time.sleep(reset)
         result = requests.head("https://pixels.pythondiscord.com/set_pixel",headers=HEADERS)
         remaining = result.headers['Requests-Remaining']
-    print(f"Setting pixel {task["x"]}, {task["y"]} with color {task["color"]} for project {task["name"]}")
+    print(f"Setting pixel { task['x'] }, { task['y'] } with color { task['color'] } for project { task['source'] }")
     sendpixel(task["x"], task["y"], task["color"])
     church_headers["task-id"] = str(task["id"])
     result = requests.post("http://churchofpepe.ddns.net:5000/task_done",headers=church_headers)
