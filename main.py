@@ -51,7 +51,7 @@ def check_remaining():
     result = requests.head("https://pixels.pythondiscord.com/set_pixel",headers=HEADERS)
 
     if "requests-remaining" in result.headers:
-        remaining = result.headers['Requests-Remaining']
+        remaining = int(result.headers['Requests-Remaining'])
     if "cooldown-reset" in result.headers:
         print("Set pixel cooldown reset. ", int(result.headers["cooldown-reset"]))
         time.sleep(int(result.headers["cooldown-reset"]))
@@ -63,7 +63,7 @@ def check_remaining():
 while True:
     r = requests.get("http://churchofpepe.ddns.net:5000/get_task",headers=church_headers)
     try:
-        task = json.loads(r)
+        task = json.loads(r.text)
 
         check_remaining()
 
@@ -71,7 +71,8 @@ while True:
         sendpixel(task["x"], task["y"], task["color"])
         church_headers["task-id"] = str(task["id"])
         result = requests.post("http://churchofpepe.ddns.net:5000/task_done",headers=church_headers)
-        
-    except:
+
+    except Exception as e:
         print("No tasks available! - sleeping...")
+        print(e)
         time.sleep(20)
