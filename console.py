@@ -37,3 +37,24 @@ while True:
         except:
             print("conn error")
         print(r.json())
+
+    if cmd == "new_key":
+        headers["key-name"] = input("Name: ")
+        headers["key-level"] = input("Access level (1): ")
+        if headers["key-level"] == "":
+            headers["key-level"] = '1'
+        r = requests.post("http://churchofpepe.ddns.net:5000/new_key", headers=headers)
+        print(r.text)
+            #print("conn error")
+
+    if cmd == "del_key":
+        headers["other-key"] = input("Key to delete !: ")
+        y = input("U sure (y/n)")
+        if y =="y":
+            try:
+                r = requests.post("http://churchofpepe.ddns.net:5000/del_key", headers=headers)
+            except:
+                print("conn error")
+            print(r.text)
+        else:
+            print("Canceled.")

@@ -30,8 +30,10 @@ def sendpixel(x, y, rgb):
       json=data,
       headers=HEADERS
     )
-    result.raise_for_status()
-    print(result.json()["message"])
+    try:
+        result.raise_for_status()
+    except:
+        print("error setting pixel")
 
     info = result.headers
 
@@ -46,18 +48,17 @@ remaining = result.headers['Requests-Remaining']
 
 while True:
     r = requests.get("http://churchofpepe.ddns.net:5000/get_task",headers=church_headers)
-    print(r.text)
-    if r.text == "\"no tasks\"":
+    try:
+        task = r.json()
+    except:
         print("No tasks available! - sleeping...")
         time.sleep(20)
-    else:
-        task = r.json()
-        if remaining == 0:
-            print("Write waiting... " + str(reset))
-            time.sleep(reset)
-            result = requests.head("https://pixels.pythondiscord.com/set_pixel",headers=HEADERS)
-            remaining = result.headers['Requests-Remaining']
-
-        sendpixel(task["x"], task["y"], task["color"])
-        church_headers["task-id"] = str(task["id"])
-        result = requests.post("http://churchofpepe.ddns.net:5000/task_done",headers=church_headers)
+    if remaining == 0:
+        print("waiting... " + str(reset))
+        time.sleep(reset)
+        result = requests.head("https://pixels.pythondiscord.com/set_pixel",headers=HEADERS)
+        remaining = result.headers['Requests-Remaining']
+    print(f"Setting pixel {task["x"]}, {task["y"]} with color {task["color"]} for project {task["name"]}")
+    sendpixel(task["x"], task["y"], task["color"])
+    church_headers["task-id"] = str(task["id"])
+    result = requests.post("http://churchofpepe.ddns.net:5000/task_done",headers=church_headers)
