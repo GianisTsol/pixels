@@ -64,14 +64,14 @@ while True:
     r = requests.get("http://churchofpepe.ddns.net:5000/get_task",headers=church_headers)
     try:
         task = json.loads(r)
+
+        check_remaining()
+
+        print(f"Setting pixel { task['x'] }, { task['y'] } with color { task['color'] } for project { task['source'] }")
+        sendpixel(task["x"], task["y"], task["color"])
+        church_headers["task-id"] = str(task["id"])
+        result = requests.post("http://churchofpepe.ddns.net:5000/task_done",headers=church_headers)
+        
     except:
-        task = {}
         print("No tasks available! - sleeping...")
         time.sleep(20)
-
-    check_remaining()
-
-    print(f"Setting pixel { task['x'] }, { task['y'] } with color { task['color'] } for project { task['source'] }")
-    sendpixel(task["x"], task["y"], task["color"])
-    church_headers["task-id"] = str(task["id"])
-    result = requests.post("http://churchofpepe.ddns.net:5000/task_done",headers=church_headers)
